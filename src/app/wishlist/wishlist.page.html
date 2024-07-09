@@ -1,0 +1,88 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-button>
+      <ion-back-button color="danger" defaultHref="/"></ion-back-button>
+      <ion-title>Wish List</ion-title>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title size="large">wishlist</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-card>
+    <div>{{movieListOption.title}}</div>
+    <ion-card-content>
+      <form [formGroup]="wishListForm" (submit)="submitWishListForm()">
+        <ion-item>
+          <input type="text" formControlName="name" placeholder="name" />
+          @if(wishListForm.controls['name'].touched || wishListForm.controls['name'].dirty){
+            @if(wishListForm.controls['name'].errors?.['required']){
+              <span>Please Input Name</span>
+            }
+            @else if(wishListForm.controls['name'].errors?.['minlength']){
+              <span style="color: red;">More than 3 character</span>
+            }
+          }
+        </ion-item>
+
+        <ion-item>
+          <input type="email" formControlName="email" placeholder="email" />
+          @if(wishListForm.controls['email'].touched && wishListForm.controls['email'].invalid){
+            <span>Please Input Email</span>
+          }
+        </ion-item>
+
+        <ion-item>
+          <input formControlName="message" placeholder="Wish here" />
+          @if(wishListForm.controls['message'].touched && wishListForm.controls['message'].invalid){
+            @if(wishListForm.controls['message'].hasError('required')){
+              <span>Please Input Message</span>
+            }
+            @if(wishListForm.controls['message'].hasError('minlength')){
+              <span>More than 3 character</span>
+            }
+          }
+        </ion-item>
+
+        <select formControlName="movie" class="ion-margin-start">
+          @for(option of movieListOption; track option.id){
+          <option [value]="option.original_title">
+            {{option?.original_title}}
+          </option>
+          }
+        </select>
+        <ion-button class="ion-margin-top ion-margin-start" type="submit"
+          >Submit</ion-button
+        >
+      </form>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-grid>
+    <!-- Header Row -->
+    <ion-row class="header-row">
+      <ion-col>Name</ion-col>
+      <ion-col>Email</ion-col>
+      <ion-col>Message</ion-col>
+      <ion-col>movie</ion-col>
+      <ion-col>Poster</ion-col>
+    </ion-row>
+  
+    @for(form of submitList; track $index){
+      <ion-row class="data-row">
+        <ion-col>{{ form.name }}</ion-col>
+        <ion-col>{{ form.email }}</ion-col>
+        <ion-col>{{ form.message }}</ion-col>
+        <ion-col>{{ form.movie }}</ion-col>
+        <ion-col>
+          <ion-img [src]="'https://image.tmdb.org/t/p/w300_and_h450_bestv2/' + form.poster" alt="poster" style="max-width: 50px; max-height: 80px;"></ion-img>
+        </ion-col>
+      </ion-row>
+    }
+  </ion-grid>
+</ion-content>

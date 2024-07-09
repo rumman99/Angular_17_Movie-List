@@ -1,0 +1,54 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-button>
+      <ion-back-button color="danger" defaultHref="/"></ion-back-button>
+      <ion-title>{{allMovie()?.title}}</ion-title>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content [fullscreen]="true" class="ion-text-center ion-align-items-center">
+  @if(allMovie()){
+    <ion-card>
+      <div>
+        <img [src]="imageUrl+allMovie()?.poster_path" alt="poster" />
+      </div>
+      <ion-card-header>
+        <ion-card-title>{{allMovie()?.title}}</ion-card-title>
+        <ion-card-subtitle>{{allMovie()?.tagline}}</ion-card-subtitle>
+        <ion-text color="warning">
+          Genre:
+          @for(genre of allMovie()?.genres; track genre.id){
+            <span>{{genre.name}}. </span>
+          }
+        </ion-text>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-label class="ion-text-wrap">
+          <p>{{allMovie()?.overview}}</p>
+        </ion-label>
+      </ion-card-content>
+      <ion-badge slot=""> {{allMovie()?.vote_average}} </ion-badge>
+    </ion-card>
+  }
+</ion-content>
+
+<!-- 
+<ion-content [fullscreen]="true" class="ion-text-center ion-align-items-center">
+  @if(allMovie()){
+  <div>
+    <img [src]="imageUrl+allMovie()?.poster_path" alt="poster" />
+  </div>
+  <ion-label class="ion-text-wrap">
+    <h3>{{allMovie()?.title}}</h3>
+    <h3>Genre:</h3>
+    @for(genre of allMovie()?.genres; track genre.id){
+    <p>{{genre.name}}</p>
+    }
+    <p>{{allMovie()?.release_date | date:'y'}}</p>
+    <p>{{allMovie()?.overview}}</p>
+  </ion-label>
+  <ion-badge slot=""> {{allMovie()?.vote_average}} </ion-badge>
+  }
+</ion-content> -->
